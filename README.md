@@ -24,50 +24,76 @@ Contextπ is an automated, context-aware API testing engine. Rather than relying
 - **Test Engine**: Playwright API Testing (`@playwright/test` using `request.newContext()`)
 - **Environment**: Dotenv with `.env.example` dummy credentials
 
+# 🛠️ Technology Stack
+
+- **Runtime:** Node.js 18+
+- **Language:** TypeScript 5+
+- **API Framework:** Express 4
+- **Database:** MongoDB
+- **ODM:** Mongoose
+- **Environment Configuration:** dotenv
+- **API Testing:** Playwright
+- **Test Generation:** TypeScript-based Contextπ generator
+- **Version Control:** Git & GitHub
 ---
 
-## 📁 Repository Structure
+# 🗂️ Repository Structure
 
-```
+```text
 contextpi/
+│
 ├── docs/
-│   └── api.md                     # Complete API endpoint reference
+│   └── api.md
+│
 ├── src/
-│   ├── app.ts                     # Express app configuration & middleware
-│   ├── server.ts                  # Server entry point (:4000)
+│   ├── app.ts
+│   ├── server.ts
+│   │
 │   ├── config/
-│   │   └── db.ts                  # Resilient MongoDB connector
+│   │   └── db.ts
+│   │
 │   ├── types/
-│   │   └── index.ts               # Core TypeScript interfaces & models
+│   │   └── index.ts
+│   │
 │   ├── services/
-│   │   ├── schemaService.ts       # Dynamic schema loader & memory cache
-│   │   └── businessRuleService.ts # NexaSupply business rule engine
+│   │   ├── schemaService.ts
+│   │   └── businessRuleService.ts
+│   │
 │   ├── middleware/
-│   │   └── dynamicValidator.ts    # Metadata-driven schema validator
+│   │   └── dynamicValidator.ts
+│   │
 │   ├── controllers/
-│   │   ├── formCrudController.ts  # Generic dynamic CRUD & Bulk handler
-│   │   ├── customFunctionController.ts # Custom function & registry controller
-│   │   └── testGenController.ts   # Contextπ generation & run endpoints
+│   │   ├── formCrudController.ts
+│   │   ├── customFunctionController.ts
+│   │   └── testGenController.ts
+│   │
 │   ├── routes/
-│   │   ├── formsRoutes.ts         # /forms/* endpoints
-│   │   └── testGenRoutes.ts       # /test-gen/* endpoints
+│   │   ├── formsRoutes.ts
+│   │   └── testGenRoutes.ts
+│   │
 │   └── generator/
-│       ├── contextLoader.ts       # MongoDB context extraction
-│       ├── businessRuleParser.ts  # Natural language requirement parser
-│       ├── catalogBuilder.ts      # Test catalog compiler
-│       ├── specWriter.ts          # Playwright .spec.ts generator
-│       ├── runner.ts              # Programmatic Playwright test runner
-│       └── index.ts               # Generator engine facade
+│       ├── contextLoader.ts
+│       ├── businessRuleParser.ts
+│       ├── catalogBuilder.ts
+│       ├── specWriter.ts
+│       ├── runner.ts
+│       └── index.ts
+│
+├── scripts/
+│   └── seed.ts
+│
 ├── tests/
-│   ├── forms/                     # Generated schema specs (e.g. products.spec.ts)
-│   └── functions/                 # Generated custom function specs
-├── playwright.config.ts           # Playwright API test configuration
-├── tsconfig.json                  # TypeScript compiler options (Strict Mode)
-├── package.json                   # Project dependencies & scripts
-├── NexaSupply.postman_collection.json # Ready-to-import Postman suite
-├── .env.example                   # Dummy environment configuration
-└── README.md
-```
+│   ├── forms/
+│   └── functions/
+│
+├── playwright.config.ts
+├── tsconfig.json
+├── package.json
+├── package-lock.json
+├── NexaSupply.postman_collection.json
+├── .gitignore
+├── .env.example
+└── README.md```
 
 ---
 
