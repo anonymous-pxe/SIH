@@ -175,7 +175,3 @@ POST /test-gen/run
 ```
 
 ---
-
-## 🧪 Postman & Manual Testing
-Import `NexaSupply.postman_collection.json` into Postman to instantly test all endpoints.
-ye prince ne dala tha isko edit karo jo jo maine dala wo sab isme dalo aur phirse do taki ai rewrite kar doon isme hum dono ka role bhi likh dena 
