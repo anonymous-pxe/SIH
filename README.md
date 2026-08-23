@@ -16,13 +16,6 @@ Contextπ is an automated, context-aware API testing engine. Rather than relying
 
 ---
 
-## 🛠️ Technology Stack & Standards
-- **Runtime**: Node.js (18+)
-- **Language**: TypeScript 5+ in **Strict Mode** (`"strict": true` in `tsconfig.json`)
-- **API Framework**: Express 4
-- **Database Driver**: MongoDB / Mongoose with dynamic schema loading & non-crashing fallback
-- **Test Engine**: Playwright API Testing (`@playwright/test` using `request.newContext()`)
-- **Environment**: Dotenv with `.env.example` dummy credentials
 
 # 🛠️ Technology Stack
 
