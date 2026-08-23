@@ -1,0 +1,40 @@
+{
+  "name": "contextpi-backend",
+  "version": "1.0.0",
+  "description": "Contextπ - Business-Context API Test Generation Platform & NexaSupply Dynamic Backend",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "typecheck": "tsc --noEmit",
+    "test:api": "playwright test",
+    "test:report": "playwright show-report"
+  },
+  "keywords": [
+    "contextpi",
+    "ps10",
+    "playwright",
+    "api-testing",
+    "test-generation",
+    "typescript",
+    "express",
+    "mongodb"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongodb": "^6.12.0",
+    "mongoose": "^8.9.5"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.1",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.10.7",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.7.3"
+  }
+}

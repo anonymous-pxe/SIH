@@ -1,0 +1,161 @@
+# Contextπ — Business-Context API Test Generation Platform & NexaSupply Backend
+
+**Team**: T31 • SixthSense  
+**Problem Statement**: PS10 - Business-Context API Test Generation  
+**Solution**: Contextπ  
+
+---
+
+## 📌 Executive Summary
+
+Contextπ is an automated, context-aware API testing engine. Rather than relying on hard-coded test assertions or generic black-box fuzzers, Contextπ reads an application's data layer metadata (`form_schemas` and `custom_functions` in MongoDB) along with free-form business rules to automatically:
+1. **Discover application context**: Extracts field data types, mandatory constraints, relational foreign keys (`mappedTableRef`), enums, and custom function payload contracts.
+2. **Compile a Formal Test Catalogue**: Generates categorized test cases (`TC-CRUD-01..10`, `TC-BIZ-01..04`, `TC-FUNC-01..05`, `TC-REG-01..05`, `TC-BULK-01..03`).
+3. **Emit Strict TypeScript Playwright Specs**: Emits runnable `.spec.ts` files under `tests/forms/` and `tests/functions/`.
+4. **Execute & Report**: Runs Playwright API tests against the live Express backend, outputting Playwright HTML reports and JSON summary statistics.
+
+---
+
+## 🛠️ Technology Stack & Standards
+- **Runtime**: Node.js (18+)
+- **Language**: TypeScript 5+ in **Strict Mode** (`"strict": true` in `tsconfig.json`)
+- **API Framework**: Express 4
+- **Database Driver**: MongoDB / Mongoose with dynamic schema loading & non-crashing fallback
+- **Test Engine**: Playwright API Testing (`@playwright/test` using `request.newContext()`)
+- **Environment**: Dotenv with `.env.example` dummy credentials
+
+---
+
+## 📁 Repository Structure
+
+```
+contextpi/
+├── docs/
+│   └── api.md                     # Complete API endpoint reference
+├── src/
+│   ├── app.ts                     # Express app configuration & middleware
+│   ├── server.ts                  # Server entry point (:4000)
+│   ├── config/
+│   │   └── db.ts                  # Resilient MongoDB connector
+│   ├── types/
+│   │   └── index.ts               # Core TypeScript interfaces & models
+│   ├── services/
+│   │   ├── schemaService.ts       # Dynamic schema loader & memory cache
+│   │   └── businessRuleService.ts # NexaSupply business rule engine
+│   ├── middleware/
+│   │   └── dynamicValidator.ts    # Metadata-driven schema validator
+│   ├── controllers/
+│   │   ├── formCrudController.ts  # Generic dynamic CRUD & Bulk handler
+│   │   ├── customFunctionController.ts # Custom function & registry controller
+│   │   └── testGenController.ts   # Contextπ generation & run endpoints
+│   ├── routes/
+│   │   ├── formsRoutes.ts         # /forms/* endpoints
+│   │   └── testGenRoutes.ts       # /test-gen/* endpoints
+│   └── generator/
+│       ├── contextLoader.ts       # MongoDB context extraction
+│       ├── businessRuleParser.ts  # Natural language requirement parser
+│       ├── catalogBuilder.ts      # Test catalog compiler
+│       ├── specWriter.ts          # Playwright .spec.ts generator
+│       ├── runner.ts              # Programmatic Playwright test runner
+│       └── index.ts               # Generator engine facade
+├── tests/
+│   ├── forms/                     # Generated schema specs (e.g. products.spec.ts)
+│   └── functions/                 # Generated custom function specs
+├── playwright.config.ts           # Playwright API test configuration
+├── tsconfig.json                  # TypeScript compiler options (Strict Mode)
+├── package.json                   # Project dependencies & scripts
+├── NexaSupply.postman_collection.json # Ready-to-import Postman suite
+├── .env.example                   # Dummy environment configuration
+└── README.md
+```
+
+---
+
+## 🚀 Quick Start Guide
+
+### 1. Install Dependencies
+```bash
+npm install
+```
+
+### 2. Environment Setup
+Create a `.env` file (or copy `.env.example`):
+```env
+PORT=4000
+NODE_ENV=development
+API_BASE_URL=http://localhost:4000
+MONGODB_URI=mongodb://localhost:27017/nexasupply
+TEST_DIR=./tests
+REPORT_DIR=./playwright-report
+```
+
+### 3. Start Development Server
+```bash
+npm run dev
+```
+Server will be live at `http://localhost:4000`.
+
+### 4. Verify TypeScript Compilation (Strict Mode)
+```bash
+npm run typecheck
+```
+
+---
+
+## 🧠 Contextπ Engine Workflow (PS10 Pipeline)
+
+```
+MongoDB Context (form_schemas + custom_functions) + Business Requirement
+                            ↓
+                    [ Context Loader ]
+                            ↓
+                  [ Test Catalog Builder ]
+        (Generates TC-CRUD, TC-BIZ, TC-FUNC, TC-REG, TC-BULK)
+                            ↓
+                   [ Playwright Spec Writer ]
+            (Emits tests/forms/*.spec.ts, tests/functions/*.spec.ts)
+                            ↓
+                   [ Playwright Test Runner ]
+               (npx playwright test -> Green Exit Code 0)
+                            ↓
+                [ HTML & JSON Reports Output ]
+```
+
+---
+
+## 🔄 Adding a New Schema & Re-running Generation
+
+To add a new schema to the project and generate tests:
+1. **Register the Schema** via API or database:
+```bash
+POST /forms/formCreate/form_schemas
+{
+  "projectName": "nexasupply",
+  "schemaName": "invoices",
+  "active": true,
+  "fields": [
+    { "name": "invoiceNumber", "dataType": "String", "mandatoryField": true },
+    { "name": "orderId", "dataType": "String", "mandatoryField": true, "mappedTableRef": "orders" },
+    { "name": "amount", "dataType": "Number", "mandatoryField": true },
+    { "name": "dueDate", "dataType": "Date", "mandatoryField": false }
+  ]
+}
+```
+2. **Trigger Test Generation**:
+```bash
+POST /test-gen/generate
+{
+  "projectName": "nexasupply"
+}
+```
+Contextπ will automatically load the new `invoices` schema, compute the mandatory field negative tests, type mismatch tests, and emit `tests/forms/invoices.spec.ts`.
+
+3. **Run Generated Tests**:
+```bash
+POST /test-gen/run
+```
+
+---
+
+## 🧪 Postman & Manual Testing
+Import `NexaSupply.postman_collection.json` into Postman to instantly test all endpoints.

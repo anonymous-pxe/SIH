@@ -1,0 +1,272 @@
+{
+  "info": {
+    "name": "NexaSupply & Contextπ API Collection",
+    "_postman_id": "c1a2b3c4-d5e6-4f7a-8b9c-0d1e2f3a4b5c",
+    "description": "Comprehensive Postman API collection for Contextπ PS10 test generation and NexaSupply schema-driven backend.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health & Metadata",
+      "item": [
+        {
+          "name": "Root Health & Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/", "host": ["{{baseUrl}}"], "path": [""] }
+          }
+        },
+        {
+          "name": "Get Projects Overview",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/projects", "host": ["{{baseUrl}}"], "path": ["projects"] }
+          }
+        },
+        {
+          "name": "Get Project Context (Context Explorer)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/projects/nexasupply/context", "host": ["{{baseUrl}}"], "path": ["projects", "nexasupply", "context"] }
+          }
+        },
+        {
+          "name": "Get Settings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/settings", "host": ["{{baseUrl}}"], "path": ["settings"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "PS10 Dynamic Schema CRUD (/forms/*)",
+      "item": [
+        {
+          "name": "Create Product (Happy Path)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"MacBook Pro M5\",\n  \"sku\": \"MBP-M5-001\",\n  \"price\": 2499,\n  \"supplierId\": \"sup-201\",\n  \"category\": \"Electronics\",\n  \"status\": \"Active\",\n  \"discountPercent\": 10\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/forms/formCreate/products", "host": ["{{baseUrl}}"], "path": ["forms", "formCreate", "products"] }
+          }
+        },
+        {
+          "name": "Create Product (Negative - Missing Price)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Invalid Laptop\",\n  \"sku\": \"LAP-001\",\n  \"supplierId\": \"sup-201\",\n  \"category\": \"Electronics\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/forms/formCreate/products", "host": ["{{baseUrl}}"], "path": ["forms", "formCreate", "products"] }
+          }
+        },
+        {
+          "name": "Create Customer (Negative - 9 Digit Phone)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Vertex Labs\",\n  \"phone\": \"123456789\",\n  \"customerType\": \"Enterprise\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/forms/formCreate/customers", "host": ["{{baseUrl}}"], "path": ["forms", "formCreate", "customers"] }
+          }
+        },
+        {
+          "name": "Get Product by ID",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"prod-301\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/forms/formGet/products", "host": ["{{baseUrl}}"], "path": ["forms", "formGet", "products"] }
+          }
+        },
+        {
+          "name": "List Products (Paginated & Search)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"page\": 1,\n  \"limit\": 10,\n  \"search\": \"Dell\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/forms/formGet/products", "host": ["{{baseUrl}}"], "path": ["forms", "formGet", "products"] }
+          }
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"prod-301\",\n  \"data\": {\n    \"price\": 2399,\n    \"discountPercent\": 15\n  }\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/forms/formUpdate/products", "host": ["{{baseUrl}}"], "path": ["forms", "formUpdate", "products"] }
+          }
+        },
+        {
+          "name": "Soft Delete Product",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"prod-301\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/forms/formDelete/products", "host": ["{{baseUrl}}"], "path": ["forms", "formDelete", "products"] }
+          }
+        },
+        {
+          "name": "Bulk Upload Products",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    {\n      \"name\": \"Samsung 4K Monitor\",\n      \"sku\": \"SAM-4K-001\",\n      \"price\": 450,\n      \"supplierId\": \"sup-201\",\n      \"category\": \"Electronics\"\n    },\n    {\n      \"name\": \"Logitech MX Master 3S\",\n      \"sku\": \"LOG-MX-002\",\n      \"price\": 99,\n      \"supplierId\": \"sup-202\",\n      \"category\": \"Accessories\"\n    }\n  ]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/forms/formBulkupload/products", "host": ["{{baseUrl}}"], "path": ["forms", "formBulkupload", "products"] }
+          }
+        },
+        {
+          "name": "Query Products with Join Population",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filter\": {\n    \"category\": \"Electronics\"\n  },\n  \"populate\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/forms/query/products", "host": ["{{baseUrl}}"], "path": ["forms", "query", "products"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Custom Functions & Registry",
+      "item": [
+        {
+          "name": "Execute getProductInventorySummary",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectName\": \"nexasupply\",\n  \"payload\": {\n    \"productId\": \"prod-301\"\n  }\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/forms/function/getProductInventorySummary", "host": ["{{baseUrl}}"], "path": ["forms", "function", "getProductInventorySummary"] }
+          }
+        },
+        {
+          "name": "Execute getCustomerOrderSummary",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectName\": \"nexasupply\",\n  \"payload\": {\n    \"customerId\": \"cust-101\"\n  }\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/forms/function/getCustomerOrderSummary", "host": ["{{baseUrl}}"], "path": ["forms", "function", "getCustomerOrderSummary"] }
+          }
+        },
+        {
+          "name": "Execute checkOrderEligibility",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectName\": \"nexasupply\",\n  \"payload\": {\n    \"customerId\": \"cust-101\",\n    \"productId\": \"prod-301\",\n    \"quantity\": 2\n  }\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/forms/function/checkOrderEligibility", "host": ["{{baseUrl}}"], "path": ["forms", "function", "checkOrderEligibility"] }
+          }
+        },
+        {
+          "name": "Register New Custom Function",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectName\": \"nexasupply\",\n  \"name\": \"calculateWarehouseUtilization\",\n  \"payloadStructure\": {\n    \"warehouseId\": \"string (required)\"\n  },\n  \"expectedResponseSchema\": {\n    \"warehouseId\": \"string\",\n    \"utilizationPercent\": \"number\"\n  }\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/forms/createfunction", "host": ["{{baseUrl}}"], "path": ["forms", "createfunction"] }
+          }
+        },
+        {
+          "name": "Get Function Contract",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectName\": \"nexasupply\",\n  \"name\": \"getProductInventorySummary\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/forms/getfunction", "host": ["{{baseUrl}}"], "path": ["forms", "getfunction"] }
+          }
+        },
+        {
+          "name": "List All Custom Functions",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectName\": \"nexasupply\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/forms/getAllfunction", "host": ["{{baseUrl}}"], "path": ["forms", "getAllfunction"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contextπ Test Generator Engine",
+      "item": [
+        {
+          "name": "Generate Test Catalogue & Spec Files",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectName\": \"nexasupply\",\n  \"requirement\": \"Phone must be exactly 10 digits.\\nAccount name must not be empty.\\nProduct price > 0.\\nDiscount <= 50%.\",\n  \"includeFunctions\": true,\n  \"outputDir\": \"./tests\",\n  \"previewOnly\": false\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/test-gen/generate", "host": ["{{baseUrl}}"], "path": ["test-gen", "generate"] }
+          }
+        },
+        {
+          "name": "Run Generated Playwright Tests",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"projectName\": \"nexasupply\",\n  \"testDir\": \"./tests\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/test-gen/run", "host": ["{{baseUrl}}"], "path": ["test-gen", "run"] }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:4000"
+    }
+  ]
+}
