@@ -8,6 +8,7 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "typecheck": "tsc --noEmit",
+    "seed": "ts-node-dev --transpile-only scripts/seed.ts",
     "test:api": "playwright test",
     "test:report": "playwright show-report"
   },
